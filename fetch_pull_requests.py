@@ -12,6 +12,7 @@ DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 GITHUB_OWNER = "Koalazodiac"
 GITHUB_REPO = "TemplateGitHub"
 LINKS_FILE = "github_links.json" #File for Discord to Github links
+DISCORD_SERVER = "Template Server"
 
 def load_links():
     if os.path.exists(LINKS_FILE):
@@ -55,7 +56,7 @@ def fetch_pull_requests():
     return prs
 
 def find_user_from_github(github_user):
-    guild = discord.utils.get(bot.guilds, name="Template Server")  # your server name
+    guild = discord.utils.get(bot.guilds, name=DISCORD_SERVER)  # your server name
     github_to_discord = load_links()
 
     tag = github_to_discord[github_user]
@@ -67,7 +68,7 @@ def find_user_from_github(github_user):
     return member
 
 
-# Create the bot
+# Create the    
 intents = discord.Intents.default()
 intents.message_content = True  # allow bot to see messages
 intents.members = True  # allow bot to see members
@@ -127,7 +128,7 @@ async def leaderboard(ctx):
 @tasks.loop(minutes=1)  # Change frequency here (hours, minutes, seconds)
 async def auto_update_roles():
     await bot.wait_until_ready()
-    guild = discord.utils.get(bot.guilds, name="Template Server")  # your server name
+    guild = discord.utils.get(bot.guilds, name=DISCORD_SERVER)  # your server name
 
     prs = fetch_pull_requests()
     merged_prs = [pr for pr in prs if pr["merged_at"] is not None]
